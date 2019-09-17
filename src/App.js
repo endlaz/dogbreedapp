@@ -6,6 +6,7 @@ import request from 'superagent'
 import { connect } from 'react-redux'
 import Navbar from './components/Navbar'
 import DogsListContainer from './components/DogsListContainer'
+import GameTwoComponent from './components/GameTwoComponent'
 import DogImagesContainer from './components/DogsImagesContainer'
 import FrontPage from './components/frontpage'
 
@@ -33,6 +34,7 @@ class App extends React.Component {
           <Route exact path="/" component={FrontPage} />
           <Route exact path="/dogslist" component={DogsListContainer} />
           <Route path="/dog-breed/:breed" component={DogImagesContainer} />
+          <Route exact path="/games/game2" component={GameTwoComponent} />
         </section>
         <footer className="footer">
           <p>Dog breed app</p>
