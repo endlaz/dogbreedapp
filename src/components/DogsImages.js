@@ -8,9 +8,9 @@ export default function DogsImages(props) {
     <div>
       <h1>Images for {props.breed}</h1>
       <div>
-        {images? images.map(url => <img key={url} src={url} alt="images" />): "Loading..."}
+        {images ? images.map(url => <img key={url} src={url} alt="images" />): "Loading..."}
       </div>
-      <Link to="/">Go back</Link>
+      <Link to="/dogslist">Go back</Link>
     </div>
   )
 }

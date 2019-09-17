@@ -40,6 +40,10 @@ h1 {
   margin: 1rem;
 }
 
+img {
+  max-width: 100%;
+}
+
 .w-50 {
   width: 50%
 }
