@@ -4,7 +4,10 @@ export const SET_DOGSLIST = 'SET_DOGSLIST'
 export const SET_BREED_IMAGES = 'SET_BREED_IMAGES'
 
 export function getDogsList() {
-    return function (dispatch) {
+    return function (dispatch, getState) {
+        const dogsList = getState().dogsList
+        if(dogsList.length > 0) return
+        
         request('https://dog.ceo/api/breeds/list/all')
             .then(response => {
                 dispatch({
@@ -16,9 +19,9 @@ export function getDogsList() {
     }
 }
 
-export function getTenRandomBreedImages(breed) {
+export function getRandomImages(breed, num = 1) {
     return function (dispatch) {
-        request(`https://dog.ceo/api/breed/${breed}/images/random/10`)
+        request(`https://dog.ceo/api/breed/${breed}/images/random/${num}`)
             .then(response => {
                 dispatch({
                     type: SET_BREED_IMAGES,

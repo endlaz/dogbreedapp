@@ -1,12 +1,12 @@
 import React, {Component} from 'react'
 import DogsImages from './DogsImages'
 import { connect } from 'react-redux'
-import { getTenRandomBreedImages } from '../actions/dogs'
+import { getRandomImages } from '../actions/dogs'
 
 class DogsImagesContainer extends Component {
   componentDidMount() {
     const breed = this.props.match.params.breed
-    this.props.getTenRandomBreedImages(breed);
+    this.props.getRandomImages(breed, 10);
   }
 
   render() {
@@ -23,4 +23,4 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps, { getTenRandomBreedImages })(DogsImagesContainer)
+export default connect(mapStateToProps, { getRandomImages })(DogsImagesContainer)
