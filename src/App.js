@@ -1,18 +1,22 @@
 import React from 'react';
 import './App.css';
-import { Route } from 'react-router-dom'
+import logo from './logo.svg'
+import { Route, Link } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import FrontPage from './components/frontpage'
 
 function App() {
   return (
     <React.Fragment>
-      <header>
+      <header className="header">
+        <Link to="/" className="logo-link"><img src={logo} className="app-logo" alt="logo" /></Link>
         <Navbar />
       </header>
-      <section>
+      <section className="content">
+        <Route exact path="/" component={FrontPage} />
       </section>
-      <footer>
-
+      <footer className="footer">
+        <p>Dog breed app</p>
       </footer>
     </React.Fragment>
   );

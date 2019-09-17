@@ -1,0 +1,60 @@
+html, body, #root {
+  height: 100%;
+}
+body, #root {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  padding: 10px;
+  background: #000000;
+}
+.app-logo {
+  width: 50px;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+.header a {
+  color: #ffffff;
+  margin: auto 15px;
+}
+
+.header a.logo-link {
+  margin: 0;
+}
+
+.content {
+  flex: 1 0 auto;
+  padding: 0 15px;
+}
+.footer {
+  background: #000000;
+  color: #ffffff;
+  padding :0 15px;
+  font-size: 0.8rem;
+  flex-shrink: 0;
+}
+
+h1 {
+  font-size: 3rem;
+  margin: 1rem;
+}
+
+.w-50 {
+  width: 50%
+}
+/* FRONTPAGE */
+.frontpage-wrapper {
+  text-align: center;
+  justify-content: center;
+}
+.row {
+  display: flex;
+  flex-direction: row;
+  margin-left: auto;
+  margin-right: auto;
+}
+.col {
+  display: flex;
+  flex-direction: column;
+}
