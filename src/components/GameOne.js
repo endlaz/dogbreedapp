@@ -3,6 +3,8 @@ import React from 'react'
 import './GameOne.css'
 import {connect} from 'react-redux'
 import ScoreManupulation from './ScoreManupulation'
+import {AddPara} from '../actions/actioncreator'
+import {scoreManupulation} from '../actions/actioncreator'
 
 class GameOne extends React.Component{
         
@@ -25,10 +27,7 @@ class GameOne extends React.Component{
                 }
             })
             console.log(this.message)
-            this.props.dispatch({
-                type:"ADD_PARA",
-                payload: this.message
-            })
+            this.props.AddPara(this.message);
             
         }
 
@@ -66,17 +65,7 @@ class GameOne extends React.Component{
             }
 
               this.successPercentage = this.calcualteSuccesPercentage(this.countOfQuestions,this.countOfCorrectAnswers);
-            this.props.dispatch({
-                type: 'SCORE_MANUPULATION',
-                payload: {
-                    countOfCorrectAnswers: this.countOfCorrectAnswers,
-                    countOfQuestions: this.countOfQuestions,
-                    countOfWrongAnswers : this.countOfWrongAnswers,
-                    successPercentage: this.successPercentage,
-                    level: this.level,
-                    hint: null
-                }
-            })
+              this.props.scoreManupulation(this.countOfCorrectAnswers,this.countOfQuestions,this.countOfWrongAnswers,this.successPercentage,this.level,null)
             // if wrong give feedback
         }
         render(){
@@ -119,5 +108,5 @@ const mapStateToProps = (state) => {
         scoreManupulation : state.scoreManupulation
     }
 }
-export default connect(mapStateToProps)(GameOne)
+export default connect(mapStateToProps,{AddPara,scoreManupulation})(GameOne)
 

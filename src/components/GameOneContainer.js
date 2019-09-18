@@ -2,6 +2,8 @@ import React from 'react'
 import * as request from 'superagent'
 import { connect } from 'react-redux';
 import GameOne from './GameOne'
+import {AddDog} from '../actions/actioncreator'
+import _ from 'lodash'
 
 class GameOneContainer extends React.Component{
    
@@ -10,36 +12,19 @@ class GameOneContainer extends React.Component{
         request
         .get(`https://dog.ceo/api/breed/${breedName}/images/random`)
         .then(response => {
-            this.props.dispatch({
-                type: 'ADD_DOG',
-                payload: {
-                    selectedbreedList: selectedbreedList,
-                    breedName: breedName,
-                    breedImage: response.body.message
-                }
-            })
+            this.props.AddDog(selectedbreedList,breedName,response.body.message)
         })
         .catch(console.error);
     }
 
-    getRandomDogs = (dogslist,n) =>{
-        let result = new Array(n);
-        let len = dogslist.length;
-        let taken = new Array(len);
-        while (n--) {
-            var x = Math.floor(Math.random() * len);
-            result[n] = dogslist[x in taken ? taken[x] : x];
-            taken[x] = --len in taken ? taken[len] : len;
-        }
-        return result;
+    getRandomDogs = (dogslist,n) => {
+        return _.sampleSize(dogslist, n)
     }
 
-    handlesubmit = (number,diffuculty) => {
+    handlesubmit = (number,difficulty) => {
         const newarray = this.getRandomDogs(this.props.dogsList,number);
-        if(diffuculty === 'difficult'){
-            console.log(newarray);
+        if(difficulty === 'difficult'){
             const newOptions = this.getRandomDogs(newarray,3);
-            console.log(newOptions)
             const breedName = this.getRandomDogs(newOptions,1);
             this.getImage(breedName,newOptions);
         }
@@ -58,14 +43,12 @@ class GameOneContainer extends React.Component{
 
         return (
             <div>
-           
                 <GameOne 
                     selectedbreedList = {selectedbreedList}
                     breedName={breedName}
                     breedImage={breedImage} 
                     handlesubmit={this.handlesubmit}
                 />
-            
             </div>
         
         )
@@ -79,4 +62,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(GameOneContainer)
+export default connect(mapStateToProps,{AddDog})(GameOneContainer)
