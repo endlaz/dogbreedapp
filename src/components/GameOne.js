@@ -14,7 +14,19 @@ class GameOne extends React.Component{
              this.countOfWrongAnswers = 0;
              this.successPercentage = 0;
              this.counter = 3;
+             this.message = ''
          }
+
+         handleevent = (e) =>{ 
+            this.props.selectedbreedList.map(data => {
+                if(data !== this.props.breedName[0]){
+                    this.message = `The dog is not ${data}`
+                }
+            })
+            console.log(this.message)
+            const para1 =  document.getElementById('para1');
+            para1.innerHTML = this.message;
+        }
 
         calcualteSuccesPercentage = (noOfQuestions,noOfCorrectAnswers) => {
              return ((noOfCorrectAnswers / noOfQuestions) * 100 ).toFixed(1);
@@ -63,6 +75,7 @@ class GameOne extends React.Component{
         }
         render(){
                 console.log(this.props.breedName)
+               // console.log(this.message)
                 return (
 
                     <React.Fragment>
@@ -83,6 +96,8 @@ class GameOne extends React.Component{
                                     ) 
                                 })}
                             </div>
+                            <button onClick={this.handleevent} > Hint </button>
+                            <p id='para1'></p>
                             </div>
                         </section>
                     </React.Fragment>

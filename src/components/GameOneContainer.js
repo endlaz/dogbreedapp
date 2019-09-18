@@ -58,9 +58,7 @@ class GameOneContainer extends React.Component{
 
         return (
             <div>
-            <button onClick={this.handlesubmit}>
-            StartGame
-            </button>
+           
                 <GameOne 
                     selectedbreedList = {selectedbreedList}
                     breedName={breedName}
