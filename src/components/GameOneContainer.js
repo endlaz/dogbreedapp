@@ -38,7 +38,6 @@ class GameOneContainer extends React.Component{
         const newarray = this.getRandomDogs(this.props.dogsList,number);
         if(diffuculty === 'difficult'){
             console.log(newarray);
-           
             const newOptions = this.getRandomDogs(newarray,3);
             console.log(newOptions)
             const breedName = this.getRandomDogs(newOptions,1);

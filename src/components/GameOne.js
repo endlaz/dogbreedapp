@@ -13,6 +13,7 @@ class GameOne extends React.Component{
              this.counterForDifficulty = 0;
              this.countOfWrongAnswers = 0;
              this.successPercentage = 0;
+             this.counter = 3;
          }
 
         calcualteSuccesPercentage = (noOfQuestions,noOfCorrectAnswers) => {
@@ -27,13 +28,15 @@ class GameOne extends React.Component{
             if(val === this.props.breedName[0]){
                 this.countOfCorrectAnswers += 1;
                 this.counterForDifficulty += 1;
-                console.log(this.counterForDifficulty)
+                console.log(this.counterForDifficulty);
                 alert('You selected the correct Answer');
-                if(this.counterForDifficulty === 5){
-                    this.props.handlesubmit(6,'difficult')
+                
+                if(this.counterForDifficulty % 5 === 0){
+                    this.counter +=3;
+                    this.props.handlesubmit(this.counter,'difficult');
                 }
               
-                this.props.handlesubmit(3)
+                this.props.handlesubmit(3);
 
             }
             else{
