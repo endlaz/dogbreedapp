@@ -6,6 +6,7 @@ import Navbar from './components/Navbar'
 import DogsListContainer from './components/DogsListContainer'
 import DogImagesContainer from './components/DogsImagesContainer'
 import FrontPage from './components/frontpage'
+import GameThreeContainer from './components/GameThreeContainer'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/" component={FrontPage} />
         <Route exact path="/dogslist" component={DogsListContainer} />
         <Route path="/dog-breed/:breed" component={DogImagesContainer} />
+        <Route path="/games/game3" component={GameThreeContainer} />
       </section>
       <footer className="footer">
         <p>Dog breed app</p>
