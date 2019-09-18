@@ -1,0 +1,17 @@
+.game-container{
+    display:flex;
+}
+
+.score{
+    font-size: 30px;
+    width: 30%;
+}
+
+.game{
+    font-size: 30px;
+    width: 70%;
+}
+
+.options{
+    position: absolute;
+}
