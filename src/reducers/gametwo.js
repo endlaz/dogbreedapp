@@ -1,7 +1,12 @@
-const reducer = (state = [], action = {}) => {
+import { SET_IMAGES } from '../actions/gameTwo'
+
+const initialState={
+    wrongImages:[]
+}
+const reducer = (state = initialState, action = {}) => {
     switch(action.type) {
-        case 'GAME_STATE':
-            return [...state, ...action.payload]
+        case SET_IMAGES:
+            return {wrongImages: [...action.payload.wrongImages]}
         default: 
             return state;
     }
