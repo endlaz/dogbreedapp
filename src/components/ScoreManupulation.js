@@ -5,6 +5,9 @@ class ScoreManupulation extends React.Component{
     render(){
         return (
             <div>
+            <p>
+                Level {this.props.scoreManupulation.level}
+            </p>
              <p>
                  No. of Questions Answered {this.props.scoreManupulation.countOfQuestions}
              </p>

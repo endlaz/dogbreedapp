@@ -14,7 +14,8 @@ class GameOne extends React.Component{
              this.countOfWrongAnswers = 0;
              this.successPercentage = 0;
              this.counter = 3;
-             this.message = ''
+             this.level = 1;
+             this.message = '';
          }
 
          handleevent = (e) =>{ 
@@ -24,8 +25,11 @@ class GameOne extends React.Component{
                 }
             })
             console.log(this.message)
-            const para1 =  document.getElementById('para1');
-            para1.innerHTML = this.message;
+            this.props.dispatch({
+                type:"ADD_PARA",
+                payload: this.message
+            })
+            
         }
 
         calcualteSuccesPercentage = (noOfQuestions,noOfCorrectAnswers) => {
@@ -44,6 +48,7 @@ class GameOne extends React.Component{
                 alert('You selected the correct Answer');
                 
                 if(this.counterForDifficulty % 5 === 0){
+                    this.level +=1;
                     this.counter +=3;
                     this.props.handlesubmit(this.counter,'difficult');
                 }
@@ -67,8 +72,9 @@ class GameOne extends React.Component{
                     countOfCorrectAnswers: this.countOfCorrectAnswers,
                     countOfQuestions: this.countOfQuestions,
                     countOfWrongAnswers : this.countOfWrongAnswers,
-                    counterForDifficulty: this.counterForDifficulty,
-                    successPercentage: this.successPercentage
+                    successPercentage: this.successPercentage,
+                    level: this.level,
+                    hint: null
                 }
             })
             // if wrong give feedback
@@ -83,21 +89,21 @@ class GameOne extends React.Component{
                             <div className="score"> Score 
                                 <ScoreManupulation />   
                             </div>
-                            <div className="game"> 
+                            <div id="game"> 
                                 {<img src={this.props.breedImage} alt="dog"></img>}
                             <div>
                                 {this.props.selectedbreedList.map((data,i) => {
                                     console.log(data)
                                     return (
                                         <div>
-                                        <button onClick={this.selectchange} value={data} key={i}>{data}</button>
+                                          <button onClick={this.selectchange} value={data} key={i}>{data}</button>
                                         </div>
                                         
                                     ) 
                                 })}
                             </div>
                             <button onClick={this.handleevent} > Hint </button>
-                            <p id='para1'></p>
+                            <p>{this.props.scoreManupulation.hint} </p>
                             </div>
                         </section>
                     </React.Fragment>
@@ -108,6 +114,10 @@ class GameOne extends React.Component{
 }
 
 
-
-export default connect()(GameOne)
+const mapStateToProps = (state) => {
+    return{
+        scoreManupulation : state.scoreManupulation
+    }
+}
+export default connect(mapStateToProps)(GameOne)
 
