@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import DogsList from './DogsList'
 import { connect } from 'react-redux'
-import { getDogsList } from '../actions/dogs'
+import { getDogsList } from '../actions/dogsActions'
 
 class DogsListContainer extends Component {
   componentDidMount() {

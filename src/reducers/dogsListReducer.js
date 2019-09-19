@@ -1,4 +1,4 @@
-import { SET_DOGSLIST } from '../actions/dogs'
+import { SET_DOGSLIST } from '../actions/dogsActions'
 
 const reducer = (state = [], action = {}) => {
     switch(action.type) {

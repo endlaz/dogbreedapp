@@ -1,12 +1,12 @@
 import { combineReducers } from 'redux'
-import dogsList from './dogsList'
-import dogDetails from './dogDetails'
-import gametwo from './gametwo'
-import gametwoScore from './gametwoScore'
+import dogsList from './dogsListReducer'
+import selectedDog from './selectedDogReducer'
+import scoreReducer from './scoreReducer'
+import gameReducer from './gameReducer'
 
 export default combineReducers({
     dogsList,
-    dogDetails,
-    gametwo,
-    gametwoScore
+    selectedDog,
+    scoreReducer,
+    gameReducer
 })

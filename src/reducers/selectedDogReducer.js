@@ -1,4 +1,4 @@
-import { SET_BREED_IMAGES } from '../actions/dogs'
+import { SELECT_DOG } from '../actions/dogsActions'
 
 const initialState = {
     breed: '',
@@ -6,7 +6,7 @@ const initialState = {
 }
 const reducer = (state = initialState, action = {}) => {
     switch(action.type) {
-        case SET_BREED_IMAGES:
+        case SELECT_DOG:
             return {breed: action.payload.breed, images: [...action.payload.images]}
         default: 
             return state;
