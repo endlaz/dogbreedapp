@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getDogsList, getRandomImages } from '../actions/dogsActions'
 import { getWrongImages } from '../actions/gameTwo'
+import { updateScore } from '../actions/scoreActions'
+import Scorebar from './Scorebar'
 
 class GameTwoComponent extends Component {
     //this.randomImage=this.props.randomImage
@@ -19,15 +21,28 @@ class GameTwoComponent extends Component {
     }
 
     clickImage = (img) => {
-        if (img === this.props.wrongImages.wrongImages[0] ||
-            img === this.props.wrongImages.wrongImages[1]) {
-            alert("Try again")
-        }
-        else if (img === this.props.dogDetails.images[0]) {
+        let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
+
+        if (img === this.props.dogDetails.images[0]) {
             alert("Correct answer")
-            this.eventHandler()
+            score = score + 1
+            streak = streak + 1
+
+            if (streak % 5 === 0) {
+                level = level + 1
+            }
+
+        } else {
+            alert("That's wrong")
+            streak = 0;
         }
 
+        totalQuestions = totalQuestions + 1;
+        successRate = Math.round((score / totalQuestions)*100)
+
+        this.props.updateScore(score, streak, totalQuestions, level, successRate)
+
+        this.eventHandler()
     }
 
     render() {
@@ -36,6 +51,7 @@ class GameTwoComponent extends Component {
         }
 
         return <div>
+            <Scorebar />
             <p>What is the corresponding image for <b>{this.props.dogDetails.breed}</b></p>
             {this.props.dogDetails.images.map(image => {
                 return <img onClick={() => this.clickImage(image)} src={image} alt="img" />
@@ -61,7 +77,8 @@ const mapStateToProps = (state) => {
     return {
         dogsList: state.dogsList,
         dogDetails: state.dogDetails,
-        wrongImages: state.gametwo
+        wrongImages: state.gametwo,
+        scoreState: state.scoreReducer
 
 
         //randomDog: state.randomDog
@@ -69,4 +86,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getDogsList, getRandomImages, getWrongImages })(GameTwoComponent)
+export default connect(mapStateToProps, { getDogsList, getRandomImages, getWrongImages, updateScore })(GameTwoComponent)
