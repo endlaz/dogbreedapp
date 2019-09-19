@@ -1,68 +1,103 @@
-import React from 'react'
-import * as request from 'superagent'
-import { connect } from 'react-redux';
-import GameOne from './GameOne'
-import {AddDog} from '../actions/actioncreator'
-import {getDogsList} from '../actions/dogsActions'
-import _ from 'lodash'
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
+import { getDogsList } from '../actions/dogsActions'
+// import { getWrongImages } from '../actions/gameTwo'
+import { updateScore } from '../actions/scoreActions'
+import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
+import Scorebar from './Scorebar'
+import _ from 'lodash';
 
-class GameOneContainer extends React.Component{
-    componentDidMount(){
-        this.props.getDogsList();
-      }
+class GameTwoComponent extends Component {
+    //this.randomImage=this.props.randomImage
 
-    getImage = (breedName,selectedbreedList) => {
-        request
-        .get(`https://dog.ceo/api/breed/${breedName}/images/random`)
-        .then(response => {
-            this.props.AddDog(selectedbreedList,breedName,response.body.message)
-        })
-        .catch(console.error);
+
+    componentDidMount() {
+        this.props.getDogsList()
     }
 
-    getRandomDogs = (dogslist,n) => {
-        return _.sampleSize(dogslist, n)
+    eventHandler = () => {
+        this.props.setInitialGameBreeds(this.props.dogsList, this.props.scoreState.level)
+        this.props.setQuestion();
+
+
+
+        // const randomDog = get_random(this.props.dogsList)
+        // this.props.getRandomImages(randomDog, 1)
+        // this.props.getWrongImages()
     }
 
-    handlesubmit = (number,difficulty) => {
-        const newarray = this.getRandomDogs(this.props.dogsList,number);
-        if(difficulty === 'difficult'){
-            const newOptions = this.getRandomDogs(newarray,3);
-            const breedName = this.getRandomDogs(newOptions,1);
-            this.getImage(breedName,newOptions);
+    clickImage = (answer) => {
+        let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
+
+        if (answer === this.props.gameState.correctOption.breed) {
+            alert("Correct answer")
+            score = score + 1
+            streak = streak + 1
+
+            if (streak % 5 === 0) {
+                level = level + 1
+                // add 3 random
+                const threeNewOptions = _.sampleSize(this.props.dogsList.filter(
+                    function(e) { return this.indexOf(e) < 0}, 
+                    this.props.gameState.breeds
+                ), 3)
+                console.log(threeNewOptions);
+                this.props.gameState.breeds.push(...threeNewOptions)
+            }
+
+        } else {
+            alert("That's wrong")
+            streak = 0;
         }
-        else{
-            const breedName = this.getRandomDogs(newarray,1);
-            this.getImage(breedName,newarray);
-        }
-        
-        
+
+        totalQuestions = totalQuestions + 1;
+        successRate = Math.round((score / totalQuestions)*100)
+
+        this.props.updateScore(score, streak, totalQuestions, level, successRate)
+
+        this.eventHandler()
     }
 
-    render(){
-        if(this.props.gameOne === null ) return <button onClick={() => this.handlesubmit(3,'easy')}> StartGame </button>
-        
-        const { selectedbreedList, breedName, breedImage } = this.props.gameOne
+    shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
 
-        return (
-            <div>
-                <GameOne 
-                    selectedbreedList = {selectedbreedList}
-                    breedName={breedName}
-                    breedImage={breedImage} 
-                    handlesubmit={this.handlesubmit}
-                />
-            </div>
-        
-        )
+    render() {
+        let options = []
+        if (this.props.gameState.correctOption !== null) {
+            options.push(this.props.gameState.correctOption.breed)
+            this.props.gameState.wrongOptions.map(wrongOption => {
+                 options.push(wrongOption.breed)
+            })
+        }
+
+        if (this.props.gameState.correctOption === null) {
+            return <button onClick={this.eventHandler} >START GAME 1</button>
+        }
+
+        return (this.props.gameState.correctOption !== null && <div>
+            <Scorebar />
+            <p>What is the corresponding breed for this image</p>
+            <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} />
+
+            {this.shuffle(options.map(option => {
+                return <button onClick={() => this.clickImage(option)}>{option}</button>
+            }))}
+        </div>)
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        dogsList : state.dogsList,
-        gameOne : state.gameOne
+        dogsList: state.dogsList,
+        dogDetails: state.dogDetails,
+        wrongImages: state.gametwo,
+        scoreState: state.scoreReducer,
+        gameState: state.gameReducer
     }
 }
 
-export default connect(mapStateToProps,{AddDog, getDogsList})(GameOneContainer)
+export default connect(mapStateToProps, { getDogsList,
+    updateScore,
+    setInitialGameBreeds,
+    setQuestion })(GameTwoComponent)

@@ -2,24 +2,19 @@ import React from 'react'
 import './GameOne.css'
 import { connect } from 'react-redux'
 import Scorebar from './Scorebar'
-import { AddPara } from '../actions/actioncreator'
+// import { AddPara } from '../actions/actioncreator'
+import { getDogsList } from '../actions/dogsActions'
+import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
 import { updateScore } from '../actions/scoreActions'
+import _ from 'lodash';
 //import {scoremanupulation} from '../actions/actioncreator'
 
 class GameOne extends React.Component {
+    componentDidMount() {
+        this.props.getDogsList();
+    }
 
-    //  constructor(){
-    //      super()
-    //      this.countOfCorrectAnswers = 0;
-    //      this.countOfQuestions = 0;
-    //      this.counterForDifficulty = 0;
-    //      this.countOfWrongAnswers = 0;
-    //      this.successPercentage = 0;
-    //      this.counter = 3;
-    //      this.level = 1;
-    //      this.message = '';
-    //  }
-
+    // HINT
     //  handleevent = (e) =>{ 
     //     this.props.selectedbreedList.map(data => {
     //         if(data !== this.props.breedName[0]){
@@ -31,48 +26,10 @@ class GameOne extends React.Component {
 
     // }
 
-    // calcualteSuccesPercentage = (noOfQuestions,noOfCorrectAnswers) => {
-    //      return ((noOfCorrectAnswers / noOfQuestions) * 100 ).toFixed(1);
-    // }
-
-    // selectchange = (e) => {
-
-    //     this.countOfQuestions +=1;
-    //     console.log(this.props.breedName)
-    //     const val =  e.target.value;
-    //     if(val === this.props.breedName[0]){
-    //         this.countOfCorrectAnswers += 1;
-    //         this.counterForDifficulty += 1;
-    //         console.log(this.counterForDifficulty);
-    //         alert('You selected the correct Answer');
-
-    //         if(this.counterForDifficulty % 5 === 0){
-    //             this.level +=1;
-    //             this.counter +=3;
-    //             this.props.handlesubmit(this.counter,'difficult');
-    //         }
-
-    //         this.props.handlesubmit(3);
-
-    //     }
-    //     else{
-
-    //         this.countOfWrongAnswers += 1;
-    //         this.counterForDifficulty = 0;
-
-    //         alert(`Oops !!!! Wrong Answer. The correct Answer is ${this.props.breedName[0]}`)
-    //         this.props.handlesubmit(3)
-    //     }
-
-    //       this.successPercentage = this.calcualteSuccesPercentage(this.countOfQuestions,this.countOfCorrectAnswers);
-    //       this.props.scoremanupulation(this.countOfCorrectAnswers,this.countOfQuestions,this.countOfWrongAnswers,this.successPercentage,this.level)
-    //     // if wrong give feedback
-    // }
-
     checkAnswer = (e) => {
-        let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
+        let { score, streak, totalQuestions, level, successRate } = this.props.scoreState;
         // this.countOfQuestions += 1;
-        console.log(this.props.breedName)
+        // console.log(this.props.breedName)
         const val = e.target.value;
         // console.log(score)
         if (val === this.props.breedName[0]) {
@@ -106,7 +63,7 @@ class GameOne extends React.Component {
         }
         this.props.handlesubmit(3);
         totalQuestions = totalQuestions + 1;
-        successRate = Math.round((score / totalQuestions)*100)
+        successRate = Math.round((score / totalQuestions) * 100)
 
         this.props.updateScore(score, streak, totalQuestions, level, successRate)
     }
@@ -120,7 +77,8 @@ class GameOne extends React.Component {
                 <section className="game-container">
                     <Scorebar />
                     <div id="game">
-                        {<img src={this.props.breedImage} alt="dog"></img>}
+                        
+                        {/* {<img src={this.props.breedImage} alt="dog"></img>} */}
                         <div>
                             {this.props.selectedbreedList.map((data, i) => {
                                 console.log(data)
@@ -146,9 +104,15 @@ class GameOne extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        scoreState: state.scoreReducer
+        scoreState: state.scoreReducer,
+        gameState: state.gameReducer
         //scoreManupulation : state.scoreManupulation
     }
 }
-export default connect(mapStateToProps, { AddPara, updateScore })(GameOne)
+export default connect(mapStateToProps, {
+    getDogsList,
+    updateScore,
+    setInitialGameBreeds,
+    setQuestion
+})(GameOne)
 

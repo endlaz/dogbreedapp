@@ -33,15 +33,15 @@ export const selectDog = (breed, num = 10) => {
     }
 }
 
-export function getRandomImages(breed, num = 1) {
-    return function (dispatch) {
-        request(`https://dog.ceo/api/breed/${breed}/images/random/${num}`)
-            .then(response => {
-                dispatch({
-                    type: SET_BREED_IMAGES,
-                    payload: { breed: breed, images: [...response.body.message] }
-                })
-            })
-            .catch(console.error)
-    }
-}
+// export function getRandomImages(breed, num = 1) {
+//     return function (dispatch) {
+//         request(`https://dog.ceo/api/breed/${breed}/images/random/${num}`)
+//             .then(response => {
+//                 dispatch({
+//                     type: SET_BREED_IMAGES,
+//                     payload: { breed: breed, images: [...response.body.message] }
+//                 })
+//             })
+//             .catch(console.error)
+//     }
+// }

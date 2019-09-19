@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getDogsList, getRandomImages } from '../actions/dogsActions'
-import { getWrongImages } from '../actions/gameTwo'
+import { getDogsList } from '../actions/dogsActions'
+// import { getWrongImages } from '../actions/gameTwo'
 import { updateScore } from '../actions/scoreActions'
+import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
 import Scorebar from './Scorebar'
+import _ from 'lodash';
 
 class GameTwoComponent extends Component {
     //this.randomImage=this.props.randomImage
@@ -14,22 +16,33 @@ class GameTwoComponent extends Component {
     }
 
     eventHandler = () => {
+        this.props.setInitialGameBreeds(this.props.dogsList, this.props.scoreState.level)
+        this.props.setQuestion();
 
-        const randomDog = get_random(this.props.dogsList)
-        this.props.getRandomImages(randomDog, 1)
-        this.props.getWrongImages()
+
+
+        // const randomDog = get_random(this.props.dogsList)
+        // this.props.getRandomImages(randomDog, 1)
+        // this.props.getWrongImages()
     }
 
-    clickImage = (img) => {
+    clickImage = (answer) => {
         let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
 
-        if (img === this.props.dogDetails.images[0]) {
+        if (answer === this.props.gameState.correctOption.image) {
             alert("Correct answer")
             score = score + 1
             streak = streak + 1
 
             if (streak % 5 === 0) {
                 level = level + 1
+                // add 3 random
+                const threeNewOptions = _.sampleSize(this.props.dogsList.filter(
+                    function(e) { return this.indexOf(e) < 0}, 
+                    this.props.gameState.breeds
+                ), 3)
+                console.log(threeNewOptions);
+                this.props.gameState.breeds.push(...threeNewOptions)
             }
 
         } else {
@@ -45,45 +58,44 @@ class GameTwoComponent extends Component {
         this.eventHandler()
     }
 
+    shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
     render() {
-        if (this.props.dogDetails.breed === '') {
+        let options = []
+        if (this.props.gameState.correctOption !== null) {
+            options.push(this.props.gameState.correctOption.image)
+            this.props.gameState.wrongOptions.map(wrongOption => {
+                options.push(wrongOption.image)
+            })
+        }
+
+        if (this.props.gameState.correctOption === null) {
             return <button onClick={this.eventHandler} >START GAME 2</button>
         }
 
-        return <div>
+        return (this.props.gameState.correctOption !== null && <div>
             <Scorebar />
-            <p>What is the corresponding image for <b>{this.props.dogDetails.breed}</b></p>
-            {this.props.dogDetails.images.map(image => {
-                return <img onClick={() => this.clickImage(image)} src={image} alt="img" />
-            })}
-
-            {this.props.wrongImages.wrongImages.map(wrongImage => {
-                return <img onClick={() => this.clickImage(wrongImage)} src={wrongImage} alt="img2" />
-            })}
-
-
-        </div>
+            <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
+            {this.shuffle(options.map(option => {
+                return <img onClick={() => this.clickImage(option)} src={option} alt={option} />
+            }))}
+        </div>)
     }
 }
 
-const get_random = function (list) {
-    return list[Math.floor((Math.random() * list.length))];
-}
-
 const mapStateToProps = (state) => {
-
-    // console.log(randomDog)
-    // 3.) get randomDogURL from the redux state -> put into component as props
     return {
         dogsList: state.dogsList,
         dogDetails: state.dogDetails,
         wrongImages: state.gametwo,
-        scoreState: state.scoreReducer
-
-
-        //randomDog: state.randomDog
-        //   randomDog: state.randomDog
+        scoreState: state.scoreReducer,
+        gameState: state.gameReducer
     }
 }
 
-export default connect(mapStateToProps, { getDogsList, getRandomImages, getWrongImages, updateScore })(GameTwoComponent)
+export default connect(mapStateToProps, { getDogsList,
+    updateScore,
+    setInitialGameBreeds,
+    setQuestion })(GameTwoComponent)
