@@ -12,6 +12,7 @@ const reducer = (state = initialState, action={}) => {
         case 'SCORE_MANUPULATION':
             return {...state, ...action.payload}
         case 'ADD_PARA':
+            console.log(action.payload)
             return {...state, hint: action.payload}
         default: 
             return state;

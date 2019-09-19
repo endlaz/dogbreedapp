@@ -16,13 +16,14 @@ export function AddDog(selectedbreedList,breedName,breedImage){
 }
 
 export function AddPara(value){
+    console.log(value)
     return{
         type:ADD_PARA,
         payload: value
     }
 }
 
-export function scoreManupulation(countOfCorrectAnswers,countOfQuestions,countOfWrongAnswers,successPercentage,level,hint){
+export function scoremanupulation(countOfCorrectAnswers,countOfQuestions,countOfWrongAnswers,successPercentage,level){
     return{
         type:SCORE_MANUPULATION,
         payload:{
@@ -31,7 +32,7 @@ export function scoreManupulation(countOfCorrectAnswers,countOfQuestions,countOf
             countOfWrongAnswers : countOfWrongAnswers,
             successPercentage : successPercentage,
             level : level,
-            hint : hint
+            hint :null
         }
     }
 }
