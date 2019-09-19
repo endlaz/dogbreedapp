@@ -3,11 +3,14 @@ import { connect } from 'react-redux'
 import { getDogsList } from '../actions/dogsActions'
 // import { getWrongImages } from '../actions/gameTwo'
 import { updateScore } from '../actions/scoreActions'
-import { setInitialGameBreeds, setQuestion, showBreedHint } from '../actions/gameActions'
+import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
 import Scorebar from './Scorebar'
 import _ from 'lodash';
 
 class GameTwoComponent extends Component {
+    //this.randomImage=this.props.randomImage
+
+
     componentDidMount() {
         this.props.getDogsList()
     }
@@ -15,12 +18,18 @@ class GameTwoComponent extends Component {
     eventHandler = () => {
         this.props.setInitialGameBreeds(this.props.dogsList, this.props.scoreState.level)
         this.props.setQuestion();
+
+
+
+        // const randomDog = get_random(this.props.dogsList)
+        // this.props.getRandomImages(randomDog, 1)
+        // this.props.getWrongImages()
     }
 
     clickImage = (answer) => {
         let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
 
-        if (answer === this.props.gameState.correctOption.breed) {
+        if (answer === this.props.gameState.correctOption.image) {
             alert("Correct answer")
             score = score + 1
             streak = streak + 1
@@ -53,33 +62,25 @@ class GameTwoComponent extends Component {
         return array.sort(() => Math.random() - 0.5);
     }
 
-    // showBreedHint = () => {
-    //     this.props.gameState.wrongOptions[0].breed
-    // }
-
     render() {
         let options = []
         if (this.props.gameState.correctOption !== null) {
-            options.push(this.props.gameState.correctOption.breed)
+            options.push(this.props.gameState.correctOption.image)
             this.props.gameState.wrongOptions.map(wrongOption => {
-                 options.push(wrongOption.breed)
+                options.push(wrongOption.image)
             })
         }
 
         if (this.props.gameState.correctOption === null) {
-            return <button onClick={this.eventHandler} >START GAME 1</button>
+            return <button onClick={this.eventHandler} >START GAME 2</button>
         }
 
         return (this.props.gameState.correctOption !== null && <div>
             <Scorebar />
-            <p>What is the corresponding breed for this image</p>
-            <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} className="game-image" />
-
+            <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
             {this.shuffle(options.map(option => {
-                return <button onClick={() => this.clickImage(option)}>{option}</button>
+                return <img onClick={() => this.clickImage(option)} src={option} alt={option} className="game-image-option" />
             }))}
-            <button onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>
-            <p>{this.props.gameState.hint}</p>
         </div>)
     }
 }
@@ -97,5 +98,4 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { getDogsList,
     updateScore,
     setInitialGameBreeds,
-    setQuestion,
-    showBreedHint })(GameTwoComponent)
+    setQuestion })(GameTwoComponent)

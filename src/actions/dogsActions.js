@@ -1,6 +1,7 @@
 import * as request from 'superagent';
 
 export const SET_DOGSLIST = 'SET_DOGSLIST'
+export const SELECT_DOG = 'SELECT_DOG'
 export const SET_BREED_IMAGES = 'SET_BREED_IMAGES'
 
 export function getDogsList() {
@@ -19,15 +20,28 @@ export function getDogsList() {
     }
 }
 
-export function getRandomImages(breed, num = 1) {
-    return function (dispatch) {
+export const selectDog = (breed, num = 10) => {
+    return (dispatch, getState) => {
         request(`https://dog.ceo/api/breed/${breed}/images/random/${num}`)
             .then(response => {
                 dispatch({
-                    type: SET_BREED_IMAGES,
+                    type: SELECT_DOG,
                     payload: { breed: breed, images: [...response.body.message] }
                 })
             })
             .catch(console.error)
     }
 }
+
+// export function getRandomImages(breed, num = 1) {
+//     return function (dispatch) {
+//         request(`https://dog.ceo/api/breed/${breed}/images/random/${num}`)
+//             .then(response => {
+//                 dispatch({
+//                     type: SET_BREED_IMAGES,
+//                     payload: { breed: breed, images: [...response.body.message] }
+//                 })
+//             })
+//             .catch(console.error)
+//     }
+// }
