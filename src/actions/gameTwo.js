@@ -1,5 +1,6 @@
 import request from 'superagent'
 export const SET_IMAGES = 'SET_IMAGES'
+export const SET_GAMETWO_SCORE = 'SET_GAMETWO_SCORE'
 
 
 
@@ -15,3 +16,11 @@ export function getWrongImages() {
             .catch(console.error)
     }
 }
+export function getScore(score) {
+    return {
+        type: SET_GAMETWO_SCORE,
+        payload: { score }
+    }
+
+}
+

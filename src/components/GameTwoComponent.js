@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { getDogsList, getRandomImages } from '../actions/dogs'
 import { getWrongImages } from '../actions/gameTwo'
+import {getScore} from '../actions/gameTwo'
 
 class GameTwoComponent extends Component {
     //this.randomImage=this.props.randomImage
@@ -9,6 +10,7 @@ class GameTwoComponent extends Component {
 
     componentDidMount() {
         this.props.getDogsList()
+        console.log('State on mount:', this.props.score)
     }
 
     eventHandler = () => {
@@ -19,13 +21,20 @@ class GameTwoComponent extends Component {
     }
 
     clickImage = (img) => {
+        console.log('State:', this.props.score)
+        let {score} =this.props.score
+        console.log('Score destruct:', score)
         if (img === this.props.wrongImages.wrongImages[0] ||
             img === this.props.wrongImages.wrongImages[1]) {
             alert("Try again")
         }
         else if (img === this.props.dogDetails.images[0]) {
             alert("Correct answer")
+            score=score+1
+            this.props.getScore(score)
             this.eventHandler()
+            
+            
         }
 
     }
@@ -37,6 +46,7 @@ class GameTwoComponent extends Component {
 
         return <div>
             <p>What is the corresponding image for <b>{this.props.dogDetails.breed}</b></p>
+            <p>Score: {this.props.score.score}</p>
             {this.props.dogDetails.images.map(image => {
                 return <img onClick={() => this.clickImage(image)} src={image} alt="img" />
             })}
@@ -61,7 +71,8 @@ const mapStateToProps = (state) => {
     return {
         dogsList: state.dogsList,
         dogDetails: state.dogDetails,
-        wrongImages: state.gametwo
+        wrongImages: state.gametwo,
+        score: state.gametwoScore
 
 
         //randomDog: state.randomDog
@@ -69,4 +80,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { getDogsList, getRandomImages, getWrongImages })(GameTwoComponent)
+export default connect(mapStateToProps, { getDogsList, getRandomImages, getWrongImages, getScore })(GameTwoComponent)
