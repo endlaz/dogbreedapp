@@ -1,4 +1,4 @@
-import { SET_BREED_IMAGES } from '../actions/dogs'
+import { SET_BREED_IMAGES } from '../actions/dogsActions'
 
 const initialState = {
     breed: '',

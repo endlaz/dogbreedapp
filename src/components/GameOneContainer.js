@@ -3,12 +3,12 @@ import * as request from 'superagent'
 import { connect } from 'react-redux';
 import GameOne from './GameOne'
 import {AddDog} from '../actions/actioncreator'
-import {getDogs} from '../actions/fetchingdata'
+import {getDogsList} from '../actions/dogsActions'
 import _ from 'lodash'
 
 class GameOneContainer extends React.Component{
     componentDidMount(){
-        this.props.getDogs();
+        this.props.getDogsList();
       }
 
     getImage = (breedName,selectedbreedList) => {
@@ -65,4 +65,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps,{AddDog, getDogs})(GameOneContainer)
+export default connect(mapStateToProps,{AddDog, getDogsList})(GameOneContainer)

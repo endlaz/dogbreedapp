@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import DogsImages from './DogsImages'
 import { connect } from 'react-redux'
-import { getRandomImages } from '../actions/dogs'
+import { getRandomImages } from '../actions/dogsActions'
 
 class DogsImagesContainer extends Component {
   componentDidMount() {
