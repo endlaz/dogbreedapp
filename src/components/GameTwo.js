@@ -79,7 +79,7 @@ class GameTwoComponent extends Component {
             <Scorebar />
             <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
             {this.shuffle(options.map(option => {
-                return <img onClick={() => this.clickImage(option)} src={option} alt={option} />
+                return <img onClick={() => this.clickImage(option)} src={option} alt={option} className="game-image-option" />
             }))}
         </div>)
     }

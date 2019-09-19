@@ -4,6 +4,8 @@ import request from 'superagent';
 export const SET_INITIAL_BREEDS = 'SET_INITIAL_BREEDS'
 export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER'
 export const SET_WRONG_ANSWERS = 'SET_WRONG_ANSWERS'
+export const SHOW_BREED_HINT = 'SHOW_HINT'
+export const RESET_HINT = 'RESET_HINT'
 
 export function setInitialGameBreeds(dogsList, level) {
     const randomBreeds = _.sampleSize(dogsList, (level * 3))
@@ -26,7 +28,11 @@ export const setQuestion = () => {
                 randomDog
             ), 2)
         console.log('Correct dog:', randomDog);
-
+        
+        // RESET HINT
+        dispatch({
+            type: RESET_HINT
+        })
         // Fetch random image for correct dog
         request.get(`https://dog.ceo/api/breed/${randomDog}/images/random`)
             .then(response => {
@@ -57,4 +63,11 @@ export const setQuestion = () => {
                 })
             });
     }
+}
+
+export const showBreedHint = (value) => {
+    return ({
+        type: SHOW_BREED_HINT,
+        payload: value
+    })
 }

@@ -1,118 +1,101 @@
-import React from 'react'
-import './GameOne.css'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import Scorebar from './Scorebar'
-// import { AddPara } from '../actions/actioncreator'
 import { getDogsList } from '../actions/dogsActions'
-import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
+// import { getWrongImages } from '../actions/gameTwo'
 import { updateScore } from '../actions/scoreActions'
+import { setInitialGameBreeds, setQuestion, showBreedHint } from '../actions/gameActions'
+import Scorebar from './Scorebar'
 import _ from 'lodash';
-//import {scoremanupulation} from '../actions/actioncreator'
 
-class GameOne extends React.Component {
+class GameTwoComponent extends Component {
     componentDidMount() {
-        this.props.getDogsList();
+        this.props.getDogsList()
     }
 
-    // HINT
-    //  handleevent = (e) =>{ 
-    //     this.props.selectedbreedList.map(data => {
-    //         if(data !== this.props.breedName[0]){
-    //             this.message = `The dog is not ${data}`
-    //         }
-    //     })
-    //     console.log(this.message)
-    //     this.props.AddPara(this.message);
+    eventHandler = () => {
+        this.props.setInitialGameBreeds(this.props.dogsList, this.props.scoreState.level)
+        this.props.setQuestion();
+    }
 
-    // }
+    clickImage = (answer) => {
+        let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
 
-    checkAnswer = (e) => {
-        let { score, streak, totalQuestions, level, successRate } = this.props.scoreState;
-        // this.countOfQuestions += 1;
-        // console.log(this.props.breedName)
-        const val = e.target.value;
-        // console.log(score)
-        if (val === this.props.breedName[0]) {
-            // this.countOfCorrectAnswers += 1;
-            // this.counterForDifficulty += 1;
-            // console.log(this.counterForDifficulty);
-            alert('You selected the correct Answer');
+        if (answer === this.props.gameState.correctOption.breed) {
+            alert("Correct answer")
             score = score + 1
             streak = streak + 1
 
             if (streak % 5 === 0) {
                 level = level + 1
-                this.props.handlesubmit(this.counter, 'difficult');
+                // add 3 random
+                const threeNewOptions = _.sampleSize(this.props.dogsList.filter(
+                    function(e) { return this.indexOf(e) < 0}, 
+                    this.props.gameState.breeds
+                ), 3)
+                console.log(threeNewOptions);
+                this.props.gameState.breeds.push(...threeNewOptions)
             }
 
-            // if (this.counterForDifficulty % 5 === 0) {
-            //     this.level += 1;
-            //     this.counter += 3;
-            //     this.props.handlesubmit(this.counter, 'difficult');
-            // }
-
-        }
-        else {
-
-            // this.countOfWrongAnswers += 1;
-            // this.counterForDifficulty = 0;
-
-            alert(`Oops !!!! Wrong Answer. The correct Answer is ${this.props.breedName[0]}`)
+        } else {
+            alert("That's wrong")
             streak = 0;
-            // this.props.handlesubmit(3)
         }
-        this.props.handlesubmit(3);
+
         totalQuestions = totalQuestions + 1;
-        successRate = Math.round((score / totalQuestions) * 100)
+        successRate = Math.round((score / totalQuestions)*100)
 
         this.props.updateScore(score, streak, totalQuestions, level, successRate)
+
+        this.eventHandler()
     }
+
+    shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+    }
+
+    // showBreedHint = () => {
+    //     this.props.gameState.wrongOptions[0].breed
+    // }
 
     render() {
-        console.log(this.props.breedName)
-        // console.log(this.message)
-        return (
+        let options = []
+        if (this.props.gameState.correctOption !== null) {
+            options.push(this.props.gameState.correctOption.breed)
+            this.props.gameState.wrongOptions.map(wrongOption => {
+                 options.push(wrongOption.breed)
+            })
+        }
 
-            <React.Fragment>
-                <section className="game-container">
-                    <Scorebar />
-                    <div id="game">
-                        
-                        {/* {<img src={this.props.breedImage} alt="dog"></img>} */}
-                        <div>
-                            {this.props.selectedbreedList.map((data, i) => {
-                                console.log(data)
-                                return (
-                                    <div>
-                                        <button onClick={this.checkAnswer} value={data} key={i}>{data}</button>
-                                    </div>
+        if (this.props.gameState.correctOption === null) {
+            return <button onClick={this.eventHandler} >START GAME 1</button>
+        }
 
-                                )
-                            })}
-                        </div>
-                        {/* <button onClick={this.handleevent} > Hint </button> */}
-                        {/* <p>{this.props.scoreManupulation.hint} </p> */}
-                    </div>
-                </section>
-            </React.Fragment>
+        return (this.props.gameState.correctOption !== null && <div>
+            <Scorebar />
+            <p>What is the corresponding breed for this image</p>
+            <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} className="game-image" />
 
-        )
+            {this.shuffle(options.map(option => {
+                return <button onClick={() => this.clickImage(option)}>{option}</button>
+            }))}
+            <button onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>
+            <p>{this.props.gameState.hint}</p>
+        </div>)
     }
-
 }
-
 
 const mapStateToProps = (state) => {
     return {
+        dogsList: state.dogsList,
+        dogDetails: state.dogDetails,
+        wrongImages: state.gametwo,
         scoreState: state.scoreReducer,
         gameState: state.gameReducer
-        //scoreManupulation : state.scoreManupulation
     }
 }
-export default connect(mapStateToProps, {
-    getDogsList,
+
+export default connect(mapStateToProps, { getDogsList,
     updateScore,
     setInitialGameBreeds,
-    setQuestion
-})(GameOne)
-
+    setQuestion,
+    showBreedHint })(GameTwoComponent)

@@ -2,9 +2,9 @@ import React from 'react';
 import './App.css';
 import logo from './logo.svg'
 import { Route, Link } from 'react-router-dom'
-import GameOneContainer from './components/GameOneContainer'
+import GameOne from './components/GameOne'
 import DogsListContainer from './components/DogsListContainer'
-import GameTwoComponent from './components/GameTwoComponent'
+import GameTwo from './components/GameTwo'
 import DogImagesContainer from './components/DogsImagesContainer'
 import FrontPage from './components/frontpage'
 
@@ -21,10 +21,10 @@ function App() {
       </header>
       <main className="content">
         <Route exact path="/" component={FrontPage} />
-        <Route path="/games/game1" component={GameOneContainer} />
+        <Route path="/games/game1" component={GameOne} />
         <Route exact path="/dogslist" component={DogsListContainer} />
         <Route path="/dog-breed/:breed" component={DogImagesContainer} />
-        <Route exact path="/games/game2" component={GameTwoComponent} />
+        <Route exact path="/games/game2" component={GameTwo} />
       </main>
       <footer className="footer">
         <p>Dog breed app</p>
