@@ -3,9 +3,13 @@ import './App.css';
 import logo from './logo.svg'
 import { Route, Link } from 'react-router-dom'
 import Navbar from './components/Navbar'
+import GameOne from './components/GameOne'
+import GameOneContainer from './components/GameOneContainer'
+import initialComponent from './components/initialComponent'
 import DogsListContainer from './components/DogsListContainer'
 import DogImagesContainer from './components/DogsImagesContainer'
 import FrontPage from './components/frontpage'
+
 
 function App() {
   return (
@@ -16,6 +20,7 @@ function App() {
       </header>
       <section className="content">
         <Route exact path="/" component={FrontPage} />
+        <Route path="/games/game1" component={initialComponent} />
         <Route exact path="/dogslist" component={DogsListContainer} />
         <Route path="/dog-breed/:breed" component={DogImagesContainer} />
       </section>
