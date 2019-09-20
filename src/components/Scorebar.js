@@ -12,7 +12,7 @@ class Scorebar extends React.Component {
                 <li><strong>Correct Answers:</strong> {score}</li>
                 <li><strong>Success Rate:</strong> {successRate}%</li>
                 <li><strong>Streak:</strong> {streak}</li>
-                <li><button onClick={this.props.resetScore}>Reset score</button></li>
+                <li><button className="btn btn-reset" onClick={this.props.resetScore}>Reset score</button></li>
             </ul>
         )
     }
