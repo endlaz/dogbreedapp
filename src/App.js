@@ -27,7 +27,7 @@ function App() {
         <Route exact path="/games/game2" component={GameTwo} />
       </main>
       <footer className="footer">
-        <p>Dog breed app</p>
+        <p>Dog breed app by Kristina, Lazlo and Niru - Codaisseur class 30</p>
       </footer>
     </React.Fragment>
   );
