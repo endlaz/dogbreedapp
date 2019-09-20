@@ -67,7 +67,7 @@ class GameTwoComponent extends Component {
         }
 
         if (this.props.gameState.correctOption === null) {
-            return <button onClick={this.eventHandler} >START GAME 1</button>
+            return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 1</button>
         }
 
         return (this.props.gameState.correctOption !== null && <div>
@@ -76,9 +76,9 @@ class GameTwoComponent extends Component {
             <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} className="game-image" />
 
             {this.shuffle(options.map(option => {
-                return <button onClick={() => this.clickImage(option)}>{option}</button>
+                return <button className="btn btn-option" onClick={() => this.clickImage(option)}>{option}</button>
             }))}
-            <button onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>
+            <button className="btn btn-hint" onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>
             <p>{this.props.gameState.hint}</p>
         </div>)
     }
