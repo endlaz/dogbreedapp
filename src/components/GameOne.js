@@ -49,14 +49,6 @@ class GameTwoComponent extends Component {
         this.eventHandler()
     }
 
-    shuffle(array) {
-        return array.sort(() => Math.random() - 0.5);
-    }
-
-    // showBreedHint = () => {
-    //     this.props.gameState.wrongOptions[0].breed
-    // }
-
     render() {
         let options = []
         if (this.props.gameState.correctOption !== null) {
@@ -75,7 +67,7 @@ class GameTwoComponent extends Component {
             <p>What is the corresponding breed for this image</p>
             <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} className="game-image" />
 
-            {this.shuffle(options.map(option => {
+            {_.shuffle(options.map(option => {
                 return <button className="btn btn-option" onClick={() => this.clickImage(option)}>{option}</button>
             }))}
             <button className="btn btn-hint" onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>

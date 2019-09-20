@@ -58,10 +58,6 @@ class GameTwoComponent extends Component {
         this.eventHandler()
     }
 
-    shuffle(array) {
-        return array.sort(() => Math.random() - 0.5);
-    }
-
     render() {
         let options = []
         if (this.props.gameState.correctOption !== null) {
@@ -78,7 +74,7 @@ class GameTwoComponent extends Component {
         return (this.props.gameState.correctOption !== null && <div>
             <Scorebar />
             <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
-            {this.shuffle(options.map(option => {
+            {_.shuffle(options.map(option => {
                 return <img onClick={() => this.clickImage(option)} src={option} alt={option} className="game-image-option" />
             }))}
         </div>)
