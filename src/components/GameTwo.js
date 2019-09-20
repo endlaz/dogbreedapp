@@ -26,7 +26,7 @@ class GameTwoComponent extends Component {
         // this.props.getWrongImages()
     }
 
-    clickImage = (answer) => {
+    clickImage = (answer, options) => {
         let { score, streak, totalQuestions, level, successRate} = this.props.scoreState;
 
         if (answer === this.props.gameState.correctOption.image) {
@@ -46,7 +46,7 @@ class GameTwoComponent extends Component {
             }
 
         } else {
-            alert("That's wrong")
+            alert("That's wrong. The correct option is picture "+ (parseInt(options.indexOf(this.props.gameState.correctOption.image))+1))
             streak = 0;
         }
 
@@ -66,6 +66,7 @@ class GameTwoComponent extends Component {
                 options.push(wrongOption.image)
             })
         }
+        const shuffledOptions = _.shuffle([...options]);
 
         if (this.props.gameState.correctOption === null) {
             return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 2</button>
@@ -74,9 +75,9 @@ class GameTwoComponent extends Component {
         return (this.props.gameState.correctOption !== null && <div>
             <Scorebar />
             <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
-            {_.shuffle(options.map(option => {
-                return <img onClick={() => this.clickImage(option)} src={option} alt={option} className="game-image-option" />
-            }))}
+            {shuffledOptions.map(option => {
+                return <img onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
+            })}
         </div>)
     }
 }

@@ -37,7 +37,7 @@ class GameTwoComponent extends Component {
             }
 
         } else {
-            alert("That's wrong")
+            alert("That's wrong. The correct answer is " + this.props.gameState.correctOption.breed)
             streak = 0;
         }
 
