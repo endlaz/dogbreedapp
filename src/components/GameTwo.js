@@ -69,7 +69,7 @@ class GameTwoComponent extends Component {
         const shuffledOptions = _.shuffle([...options]);
 
         if (this.props.gameState.correctOption === null) {
-            return <button onClick={this.eventHandler} >START GAME 2</button>
+            return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 2</button>
         }
 
         return (this.props.gameState.correctOption !== null && <div>
