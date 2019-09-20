@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { getDogsList } from '../actions/dogsActions'
 // import { getWrongImages } from '../actions/gameTwo'
 import { updateScore } from '../actions/scoreActions'
-import { setInitialGameBreeds, setQuestion } from '../actions/gameActions'
+import { setInitialGameBreeds, setQuestion, startGame, stopGame } from '../actions/gameActions'
 import Scorebar from './Scorebar'
 import _ from 'lodash';
 
@@ -15,8 +15,13 @@ class GameTwoComponent extends Component {
         this.props.getDogsList()
     }
 
+    componentWillUnmount() {
+        this.props.stopGame()
+    }
+
     eventHandler = () => {
         this.props.setInitialGameBreeds(this.props.dogsList, this.props.scoreState.level)
+        this.props.startGame();
         this.props.setQuestion();
 
 
@@ -68,17 +73,30 @@ class GameTwoComponent extends Component {
         }
         const shuffledOptions = _.shuffle([...options]);
 
-        if (this.props.gameState.correctOption === null) {
-            return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 2</button>
-        }
+        // if (this.props.gameState.correctOption === null) {
+        //     return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 2</button>
+        // }
 
-        return (this.props.gameState.correctOption !== null && <div>
+        // return (this.props.gameState.correctOption !== null && <div>
+        //     <Scorebar />
+        //     <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
+        //     {shuffledOptions.map(option => {
+        //         return <img onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
+        //     })}
+        // </div>)
+
+        return (<React.Fragment>
+            <h1>Game 2</h1>
+            {(this.props.gameState.correctOption === null || this.props.gameState.start === false) && <button className="btn btn-start" onClick={this.eventHandler} >START GAME</button>}
+
+            {this.props.gameState.correctOption !== null && this.props.gameState.start === true && <div>
             <Scorebar />
             <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
             {shuffledOptions.map(option => {
                 return <img onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
             })}
-        </div>)
+        </div>}
+        </React.Fragment>)
     }
 }
 
@@ -95,4 +113,6 @@ const mapStateToProps = (state) => {
 export default connect(mapStateToProps, { getDogsList,
     updateScore,
     setInitialGameBreeds,
-    setQuestion })(GameTwoComponent)
+    setQuestion,
+    startGame, 
+    stopGame })(GameTwoComponent)

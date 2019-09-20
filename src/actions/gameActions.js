@@ -6,6 +6,22 @@ export const SET_CORRECT_ANSWER = 'SET_CORRECT_ANSWER'
 export const SET_WRONG_ANSWERS = 'SET_WRONG_ANSWERS'
 export const SHOW_BREED_HINT = 'SHOW_HINT'
 export const RESET_HINT = 'RESET_HINT'
+export const START_GAME = 'START_GAME'
+export const STOP_GAME = 'STOP_GAME'
+
+export function startGame() {
+    return ({
+        type: START_GAME,
+        payload: true
+    })
+}
+
+export function stopGame() {
+    return ({
+        type: STOP_GAME,
+        payload: false
+    })
+}
 
 export function setInitialGameBreeds(dogsList, level) {
     const randomBreeds = _.sampleSize(dogsList, (level * 3))

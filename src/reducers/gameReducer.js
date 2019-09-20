@@ -1,4 +1,4 @@
-import { SET_INITIAL_BREEDS, SET_CORRECT_ANSWER, SET_WRONG_ANSWERS, SHOW_BREED_HINT, RESET_HINT } from '../actions/gameActions'
+import { START_GAME, STOP_GAME, SET_INITIAL_BREEDS, SET_CORRECT_ANSWER, SET_WRONG_ANSWERS, SHOW_BREED_HINT, RESET_HINT } from '../actions/gameActions'
 
 const initialState = {
     start: false,
@@ -10,6 +10,9 @@ const initialState = {
 
 const reducer = (state = initialState, action = {}) => {
     switch (action.type) {
+        case START_GAME:
+        case STOP_GAME:
+            return {...state, start: action.payload}
         case SET_INITIAL_BREEDS:
             return {...state, breeds: [...action.payload]}
         case SET_CORRECT_ANSWER:
