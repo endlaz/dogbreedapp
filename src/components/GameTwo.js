@@ -73,18 +73,6 @@ class GameTwoComponent extends Component {
         }
         const shuffledOptions = _.shuffle([...options]);
 
-        // if (this.props.gameState.correctOption === null) {
-        //     return <button className="btn btn-start" onClick={this.eventHandler} >START GAME 2</button>
-        // }
-
-        // return (this.props.gameState.correctOption !== null && <div>
-        //     <Scorebar />
-        //     <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
-        //     {shuffledOptions.map(option => {
-        //         return <img onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
-        //     })}
-        // </div>)
-
         return (<React.Fragment>
             <h1>Game 2</h1>
             {(this.props.gameState.correctOption === null || this.props.gameState.start === false) && <button className="btn btn-start" onClick={this.eventHandler} >START GAME</button>}
