@@ -43,7 +43,6 @@ export const setQuestion = () => {
         function (e) { return this.indexOf(e) < 0 },
         randomDog
       ), 2)
-    console.log('Correct dog:', randomDog);
 
     // RESET HINT
     dispatch({
@@ -60,9 +59,7 @@ export const setQuestion = () => {
       })
 
     let wrongImages = []
-    new Promise((resolve, reject) => {
-      resolve(request.get(`https://dog.ceo/api/breed/${wrongDogs[0]}/images/random`))
-    })
+    request.get(`https://dog.ceo/api/breed/${wrongDogs[0]}/images/random`)
       .then((result) => {
         wrongImages.push(result.body.message);
         return request.get(`https://dog.ceo/api/breed/${wrongDogs[1]}/images/random`)

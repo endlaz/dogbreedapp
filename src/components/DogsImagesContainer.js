@@ -10,9 +10,7 @@ class DogsImagesContainer extends Component {
   }
 
   render() {
-    return <div>
-      <DogsImages images={ this.props.selectedDog.images } breed={this.props.match.params.breed}/>
-      </div>
+    return <DogsImages images={ this.props.selectedDog.images } breed={this.props.match.params.breed}/>
   }
 }
 

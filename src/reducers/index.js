@@ -5,8 +5,8 @@ import scoreReducer from './scoreReducer'
 import gameReducer from './gameReducer'
 
 export default combineReducers({
-    dogsList,
-    selectedDog,
-    scoreReducer,
-    gameReducer
+  dogsList,
+  selectedDog,
+  scoreReducer,
+  gameReducer
 })
