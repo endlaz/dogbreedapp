@@ -37,7 +37,11 @@ body, #root {
 
 h1 {
   font-size: 3rem;
-  margin: 1rem;
+  margin: 0 0 1rem 0;
+}
+
+img {
+  max-height: 400px;
 }
 
 .w-50 {
@@ -123,6 +127,13 @@ h1 {
 .frontpage-wrapper {
   text-align: center;
   justify-content: center;
+  background-image: url("puppies.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  padding: 15px 0;
+  margin: 0 -15px;
 }
 .row {
   display: flex;

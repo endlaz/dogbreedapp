@@ -10,10 +10,12 @@ export default class DogsList extends Component {
     return (
       <div className="dogs-list">
         <h1>Dogs List</h1>
-   
-          {dogBreeds?
-          <ul>{ dogBreeds.map(breed=> 
-           <li key={breed}><Link to={ `/dog-breed/${breed}` }>{breed}</Link></li>)}</ul> : 'Loading...' }
+          {
+            dogBreeds ? 
+              <ul>{ dogBreeds.map(breed => <li key={breed}><Link to={ `/dog-breed/${breed}` }>{breed}</Link></li>)}</ul> 
+            : 
+              'Loading...'
+          }
       </div>
     )
   }
