@@ -6,7 +6,7 @@ import { setInitialGameBreeds, setQuestion, showBreedHint, startGame, stopGame }
 import Scorebar from './Scorebar'
 import _ from 'lodash';
 
-class GameTwoComponent extends Component {
+class GameOneComponent extends Component {
   componentDidMount() {
     this.props.getDogsList()
   }
@@ -100,4 +100,4 @@ export default connect(mapStateToProps, {
   showBreedHint,
   startGame,
   stopGame
-})(GameTwoComponent)
+})(GameOneComponent)
