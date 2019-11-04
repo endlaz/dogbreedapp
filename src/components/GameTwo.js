@@ -71,7 +71,7 @@ class GameTwoComponent extends Component {
         <Scorebar />
         <p>What is the corresponding image for <b>{this.props.gameState.correctOption.breed}</b></p>
         {shuffledOptions.map(option => {
-          return <img key={option} onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
+          return <img onClick={() => this.clickImage(option, shuffledOptions)} src={option} alt={option} className="game-image-option" />
         })}
       </div>}
     </React.Fragment>)

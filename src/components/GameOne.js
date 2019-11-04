@@ -73,7 +73,7 @@ class GameOneComponent extends Component {
         <img src={this.props.gameState.correctOption.image} alt={this.props.gameState.correctOption.breed} className="game-image" />
 
         {_.shuffle(options.map(option => {
-          return <button key={option} className="btn btn-option" onClick={() => this.clickImage(option)}>{option}</button>
+          return <button className="btn btn-option" onClick={() => this.clickImage(option)}>{option}</button>
         }))}
         <button className="btn btn-hint" onClick={() => this.props.showBreedHint(this.props.gameState.wrongOptions[0].breed)}>Hint</button>
         <p>{this.props.gameState.hint}</p>
